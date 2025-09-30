@@ -1,0 +1,58 @@
+.viewport {
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background: #111;
+  position: relative;
+}
+
+.cell {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  font-size: 14px;
+  font-weight: bold;
+  color: #eee;
+  transition: background 0.3s, color 0.3s;
+  box-sizing: border-box;
+}
+
+.symbol {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-bottom: 2px;
+}
+
+.price {
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+}
+
+.flash-green {
+  background: rgba(0, 255, 0, 0.2) !important;
+  color: #00ff00;
+}
+
+.flash-red {
+  background: rgba(255, 0, 0, 0.2) !important;
+  color: #ff4d4d;
+}
+
+.viewport::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.viewport::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+.viewport::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.viewport::-webkit-scrollbar-track {
+  background: #111;
+}

@@ -1,0 +1,26 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #111;
+  margin: 0;
+}
+
+.header {
+  background: #20232a;
+  color: #61dafb;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-bottom: 1px solid #333;
+  text-align: left;   /* căn logo sang trái */
+}
+
+.logo {
+  display: inline-block;
+}
+
+.main {
+  flex: 1;
+  overflow: hidden;   /* quan trọng: tránh bị double scroll */
+}
