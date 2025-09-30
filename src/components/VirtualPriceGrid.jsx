@@ -1,4 +1,3 @@
-// src/components/VirtualPriceGrid.jsx
 import React, { useEffect, useState, useRef, useCallback, memo } from "react";
 import {
   fetchSnapshot,

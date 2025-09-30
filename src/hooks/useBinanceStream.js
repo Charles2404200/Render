@@ -1,7 +1,4 @@
-// src/hooks/useBinanceStream.js
-// Multi-socket Binance WS client: batch SUBSCRIBE, auto-reconnect, snapshot helper.
-
-let sockets = [];                // [{ ws, group, timers: [] }]
+let sockets = [];  
 let onTick = null;
 
 /** Snapshot tất cả giá hiện tại -> { symbol(lowercase): priceString } */
@@ -21,9 +18,8 @@ export async function fetchSnapshot() {
 }
 
 /**
- * Khởi tạo WS cho toàn bộ symbols.
+ * Chạy WS cho toàn bộ symbols.
  * - symbols: string[] (lowercase, đã lọc TRADING + SPOT)
- * - opts: { maxPerSocket?: number, batchSize?: number, throttleMs?: number }
  */
 export function initBinanceStream(callback, symbols, opts = {}) {
   closeBinanceStream(); // clear cũ
@@ -31,7 +27,7 @@ export function initBinanceStream(callback, symbols, opts = {}) {
   if (!Array.isArray(symbols) || symbols.length === 0) return;
   onTick = callback;
 
-  const MAX_PER_SOCKET = opts.maxPerSocket ?? 900; // an toàn < 1024
+  const MAX_PER_SOCKET = opts.maxPerSocket ?? 900;
   const BATCH_SIZE = opts.batchSize ?? 200;        // gửi subscribe mỗi lô
   const THROTTLE_MS = opts.throttleMs ?? 250;      // delay giữa các lô
 
@@ -54,7 +50,6 @@ export function closeBinanceStream() {
   onTick = null;
 }
 
-/** ---------- Internal helpers ---------- **/
 
 function openSocketForGroup(group, cfg) {
   const ws = new WebSocket("wss://stream.binance.com:9443/ws");
@@ -90,7 +85,6 @@ function openSocketForGroup(group, cfg) {
         return;
       }
 
-      // Phòng trường hợp server trả theo dạng combined (hiếm)
       if (msg && msg.data && msg.data.s && msg.data.p) {
         const sym = String(msg.data.s).toLowerCase();
         const price = Number(msg.data.p).toFixed(2);
@@ -107,7 +101,6 @@ function openSocketForGroup(group, cfg) {
 
   ws.onclose = () => {
     console.warn("⚠️ WS closed, reconnecting group...");
-    // Hủy timer cũ
     meta.timers.forEach((t) => clearTimeout(t));
     meta.timers = [];
     // Reconnect chính group này

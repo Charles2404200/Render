@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-/**
- * Virtual table không dùng rAF/timer. Dựa vào onScroll + math.
- */
+
 export function VirtualTable({ itemCount, itemSize, height, overscan = 10, renderItem }) {
   const ref = useRef(null);
   const [win, setWin] = useState({ start: 0, end: Math.min(itemCount, Math.ceil(height / itemSize) + overscan) });
