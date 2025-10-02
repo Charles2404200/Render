@@ -40,7 +40,7 @@ export function initBinanceStream(callback, symbols, opts = {}) {
   }
 }
 
-/** Đóng mọi socket và hủy các timer throttle */
+/** Đóng socket và hủy các timer throttle */
 export function closeBinanceStream() {
   sockets.forEach(({ ws, timers }) => {
     try { ws.close(); } catch {}
@@ -77,7 +77,7 @@ function openSocketForGroup(group, cfg) {
     try {
       const msg = JSON.parse(ev.data);
 
-      // /ws trả sự kiện trực tiếp { e, E, s, p, ... }
+      // /ws trả event trực tiếp
       if (msg && msg.s && msg.p) {
         const sym = String(msg.s).toLowerCase();
         const price = Number(msg.p).toFixed(2);
@@ -103,7 +103,6 @@ function openSocketForGroup(group, cfg) {
     console.warn("⚠️ WS closed, reconnecting group...");
     meta.timers.forEach((t) => clearTimeout(t));
     meta.timers = [];
-    // Reconnect chính group này
     setTimeout(() => {
       // Xóa socket cũ khỏi danh sách
       sockets = sockets.filter((s) => s !== meta);

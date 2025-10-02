@@ -52,7 +52,7 @@ export default function VirtualPriceGrid() {
   const viewportRef = useRef(null);
   const priceBufferRef = useRef({}); // { [sym]: priceString }
 
-  // 1) Load symbols + snapshot
+  //Load symbols + snapshot
   useEffect(() => {
     async function loadData() {
       try {
@@ -83,7 +83,7 @@ export default function VirtualPriceGrid() {
     loadData();
   }, []);
 
-  // 2) WebSocket → ghi vào buffer (không re-render)
+  // WebSocket → ghi vào buffer (không re-render)
   useEffect(() => {
     if (symbols.length === 0) return;
     initBinanceStream((tick) => {
@@ -93,7 +93,7 @@ export default function VirtualPriceGrid() {
     return () => closeBinanceStream();
   }, [symbols]);
 
-  // 3) Mỗi animation frame: flush buffer vào state (batch)
+  // Mỗi animation frame: flush buffer vào state (batch)
   useEffect(() => {
     let rafId;
     const loop = () => {
@@ -128,7 +128,7 @@ export default function VirtualPriceGrid() {
     return () => cancelAnimationFrame(rafId);
   }, []);
 
-  // 4) Cleanup flash nhẹ (1 interval chung), không per-cell timeout
+  // Cleanup flash nhẹ (1 interval chung), không per-cell timeout
   useEffect(() => {
     const id = setInterval(() => {
       setFlash((prev) => {
@@ -154,10 +154,9 @@ export default function VirtualPriceGrid() {
     setScroll({ top: el.scrollTop, left: el.scrollLeft });
   }, []);
 
-  // 6) Viewport sizing
   const viewportH = window.innerHeight;
   const viewportW = window.innerWidth;
-  const ROW_HEIGHT = Math.floor(viewportH / 22); // giảm một chút để hiển thị thêm
+  const ROW_HEIGHT = Math.floor(viewportH / 22);
   const COL_WIDTH = Math.floor(viewportW / 12);
   const rowBuf = 2; // buffer nhỏ để giảm DOM
   const colBuf = 2;
@@ -174,7 +173,7 @@ export default function VirtualPriceGrid() {
     startCol + Math.ceil(viewportW / COL_WIDTH) + colBuf
   );
 
-  // 7) Render cells trong viewport
+  // Render cells trong viewport
   const items = [];
   for (let row = startRow; row < endRow; row++) {
     for (let col = startCol; col < endCol; col++) {
