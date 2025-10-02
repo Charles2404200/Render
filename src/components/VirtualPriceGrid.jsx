@@ -147,7 +147,7 @@ export default function VirtualPriceGrid() {
     return () => clearInterval(id);
   }, []);
 
-  // 5) Scroll handler
+  // Scroll handler
   const onScroll = useCallback((e) => {
     const el = e.currentTarget;
     if (!el) return;
